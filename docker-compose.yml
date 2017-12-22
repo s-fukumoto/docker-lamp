@@ -1,0 +1,36 @@
+version: '3'
+services:
+  mysql:
+    container_name: mysql_${PJ_NAME}
+    image: mysql:${MYSQL_VER}
+    ports:
+      - ${MYSQL_PORT}:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - db:/var/lib/mysql
+  phpmyadmin:
+      container_name: phpmyadmin_${PJ_NAME}
+      image: phpmyadmin/phpmyadmin
+      environment:
+        - PMA_ARBITRARY=1
+        - PMA_HOST=mysql
+        - PMA_USER=root
+        - PMA_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      links:
+        - mysql
+      ports:
+        - ${PHPMYADMIN_PORT}:80
+      volumes:
+        - /sessions
+  php:
+    container_name: web_${PJ_NAME}
+    build: ${WEB_BUILD_DIR}
+    ports:
+      - ${WEB_PORT}:80
+    volumes:
+      - ${WEB_VOLUME_DIR}:/var/www/html
+    depends_on:
+      - mysql
+volumes:
+  db:
