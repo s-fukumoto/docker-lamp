@@ -36,7 +36,8 @@ services:
     depends_on:
       - mysql
     volumes:
-      - ${WEB_LOCAL_VOLUME_DIR}:${WEB_CONTEAINER_VOLUME_DIR}
+      - ${WEB_LOCAL_VOLUME_DIR1}:${WEB_CONTEAINER_VOLUME_DIR1}
+      - ${WEB_LOCAL_VOLUME_DIR2}:${WEB_CONTEAINER_VOLUME_DIR2}
     privileged: true
 volumes:
   db:
